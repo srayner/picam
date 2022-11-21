@@ -162,7 +162,7 @@ body {
     <div class="picture">
           <a href=# id=toggle-light class="picture_class">
               <button id="toggle-light-button">
-                  <i style="background: blue; color: white;" class="fa fa-lightbulb fa-2x" aria-hidden="true"></i>
+                  <i style="background: blue; color: white;" class="fa fa-lightbulb fa-regular fa-2x" aria-hidden="true"></i>
               </button>
          </a>
     </div>
@@ -190,23 +190,33 @@ button.onclick = function() {
 
 // Take and save a photo, call picture function in main.py
 $(function() {
+  
   $('a#take-picture').on('click', function(e) {
-    e.preventDefault()
-    $.getJSON('/picture',
-        function(data) {
-      //do nothing
-    });
-    return false;
+      e.preventDefault()
+      $.getJSON('/picture',
+          function(data) {
+              //do nothing
+          }
+      );
+      return false;
   });
   
   $('a#toggle-light').on('click', function(e) {
-    e.preventDefault()
-    $.getJSON('/toggle-light',
-        function(data) {
-      //do nothing
-    });
+    e.preventDefault();
+    fetch('/toggle-light')
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            var icon = e.target;
+            if (data.status === 'on') {
+                icon.classList.replace('fa-regular', 'fa-solid');
+            } else {
+                icon.classList.replace('fa-solid', 'fa-regular');
+            }
+        });
     return false;
   });
+  
 });
 
 </script>

@@ -20,5 +20,5 @@ class Light(object):
             GPIO.output(self.pin, GPIO.LOW)
             self.status = "off"
         
-        return self.status;
+        return {"status": self.status};
             
