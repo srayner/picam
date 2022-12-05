@@ -26,6 +26,20 @@ def gen(camera):
         yield (b'--frame\r\n'
                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
 
+def get_status():
+    '''this could be any function that blocks until data is ready'''
+    time.sleep(1.0)
+    s = time.ctime(time.time())
+    return s
+
+@app.route('/status')
+def status_stream():
+    def event():
+        while True:
+            # wait for source data to be available, then push it
+            yield 'data: {}\n\n'.format(get_status())
+    return Response(event(), mimetype="text/event-stream")
+
 @app.route('/video_feed')
 def video_feed():
     return Response(gen(pi_camera),
