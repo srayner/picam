@@ -12,7 +12,12 @@ import numpy as np
 class VideoCamera(object):
     def __init__(self, flip = False, file_type  = ".jpg", photo_string= "stream_photo"):
         # self.vs = PiVideoStream(resolution=(1920, 1080), framerate=30).start()
-        self.vs = PiVideoStream().start()
+        self.vs = PiVideoStream(resolution=(640, 480))
+        self.vs.camera.awb_mode = 'tungsten'
+        # self.vs.camera.rotation = 180
+        #self.vs.camera.awb_gains = 8
+        #self.vs.camera.exposure_mode = 'off'
+        self.vs.start()
         self.flip = flip # Flip frame vertically
         self.file_type = file_type # image type i.e. .jpg
         self.photo_string = photo_string # Name to save the photo

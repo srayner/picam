@@ -7,6 +7,7 @@ from flask import Flask, render_template, Response, request, send_from_directory
 from camera import VideoCamera
 from light import Light
 import os
+import glob
 
 pi_camera = VideoCamera(flip=False) # flip pi camera if upside down.
 light = Light()
@@ -40,6 +41,11 @@ def take_picture():
 @app.route('/toggle-light')
 def toggle_light():
     return light.toggle()
+
+# List photos
+@app.route('/pictures')
+def list_pictures():
+    return {"pictures": glob.glob('*.jpg')}
 
 if __name__ == '__main__':
 
